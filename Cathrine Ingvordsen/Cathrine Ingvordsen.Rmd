@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
   fig.align = 'center'
 )
 
+# comment checking git
+
 #Load libraries
 library(tidyverse)
 library(gapminder)
