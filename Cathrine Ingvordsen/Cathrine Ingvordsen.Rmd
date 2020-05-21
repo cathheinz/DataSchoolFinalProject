@@ -1,7 +1,7 @@
 ---
-title: Does weed species matter?
-subtitle: Weed-Competitive Wheat
-short_title: Optional short title # Delete if not required
+title: Weed-Competitive Wheat
+subtitle: Does weed species matter?
+short_title: Does weed species matter? # Delete if not required
 
 author:  Cathrine H Ingvordsen
 affiliation: Agriculture and Food # Or group/team
@@ -18,38 +18,32 @@ knitr::opts_chunk$set(
   fig.align = 'center'
 )
 
-# comment checking git
 
 #Load libraries
 library(tidyverse)
 library(gapminder)
 library(kableExtra)
+library(cowplot)
 ```
 
 
 # Introduction
-Hi, I'm Cathrine. I joined CSIRO in 2015 leaving Denmark for this great opportunity to work on agriculture in a country with tight link between growers and science and an agricultural sector sustainable without heavy EU subsidies. 
-Before joining Data School my R experience was adopting colleagues scripts and running them on my own data - once figuring out how to load data from another source. Experiencing even more of the power R has on offer in Data School, I'm now determined to find the time to free myself from excel and the errors that can sneak in when I combine field measurements and are complicated or impossible to back track.  
+Hi, welcome to my Data School Final Project! I joined CSIRO in 2015 leaving Denmark for this great opportunity to work on agriculture in a country with tight link between growers and science and an agricultural sector sustainable without heavy EU subsidies.
+
+Before joining Data School my R experience was adopting colleagues scripts and running them on my own data - once figuring out how to load data from another source. Experiencing even more of the power R has on offer in Data School, I'm now determined to find the time to free myself from excel and the errors that can sneak in when I combine field measurements from different sheets - the errors that are complicated or impossible to back track - and make awesome figures.  
 
 
 # My Project
-In my project team we exploit early vigour to develop weed-competitive wheat and test for proof of concept of the trait. 
+In our project team we exploit early vigour to breed weed-competitive wheat and test for proof of concept of the competitivenes. Our data comes from field trials and are phenotype data in the form of scores (1-5), weights or counts. We typically run our trials in several environments, which can be different sites, irrigation regimes or years. We also measure co-factors such as length of plots and weather data. 
 
 
+Because purposely spreading weeds is no option we use non-wheat crops as weed-surrogates and grow them in mixtures with our developed vigorous wheat lines.  
+To experimentally test if the type of weed influence the competitive ability of our vigorous wheats we grew 2 commercial varieties and seven vigorous lines with six different weed-surrogates representing a pamflet of natural occuring weeds.  
 
-
-Rather than yourself, this is the space to introduce your **project**. What are 
-your goals, what is your data, how do you plan to work with it? Perhaps show some example data if 
-it would help.
-
-In order to build this demo poster correctly, you will also need to have installed the `tidyverse`, 
-`gapminder`, and `kableExtra` packages.
 
 ## Preliminary results
+The used weed-surrogates decreased wheat yield at different strength from measurements of grain yield in our trials in Condobolin 2017 and 2018. 
 
-This section will demonstrate the different visuals you might want use to show off your 
-project. Don't feel the need to go overboard, this is supposed to give a taste of the work you are
-doing rather than being a publication ready document.
 
 To get tables formatting correctly, use `knitr::kable` to convert the table to html format. If
 you also want to have alternate row highlighting, pass the result to `kable_styling('striped')` 
@@ -61,25 +55,175 @@ knitr::kable(head(gapminder, n = 5), format = "html", caption = "A table of data
   kable_styling("striped")
 ```
 
-**Images from a file**
 
-![](resources/img/tidyverse.png){width=100px}
 
-**Plots from R**
-```{r standard-plot, out.width='60%', fig.align='center', fig.height= 4, fig.width=6, fig.cap="Yet another gapminder plot"}
-gapminder %>% 
-  filter(year == 1987) %>% 
-  ggplot(aes(x = gdpPercap, y = lifeExp, colour = continent, size = pop)) +
-  geom_point() +
-  scale_x_log10(labels = function(b) format(b, scientific = F)) +
-  scale_size(trans = "sqrt", guide = "none") +
-  scale_color_brewer(palette = "Set1") +
-  theme_linedraw() +
-  theme(legend.position = "bottom")
+
+```{r preparing data, include=FALSE}
+
+GxS <- read_csv("C:/Users/ing06d/Documents/Data school FOCUS/Final Project/Final Project/Cathrine Ingvordsen/data/GxS17and18Irr.csv")
+
+GxS %>% 
+mutate(Genotype = as.factor(Genotype)) %>% 
+mutate(weed = as.factor (weed))
+
+## prep for errorbars
+
+GxS_SE <- 
+GxS %>% 
+  mutate(yld.SEmin = yld - yld.SE) %>% 
+  mutate(yld.SEmax = yld + yld.SE)
+
+
+# each weeds on each genotype
+
+Mace <- 
+  GxS_SE %>% 
+  filter(Genotype == "Mace")
+
+Scout <- 
+  GxS_SE %>% 
+  filter(Genotype == "Scout")
+
+W091106 <- 
+  GxS_SE %>% 
+  filter(Genotype == "W091106")
+
+W120206 <- 
+  GxS_SE %>% 
+  filter(Genotype == "W120206")
+
+W320101 <- 
+  GxS_SE %>% 
+  filter(Genotype == "W320101")
+
+W470201 <- 
+  GxS_SE %>% 
+  filter(Genotype == "W470201")
+
+W670203 <- 
+  GxS_SE %>% 
+  filter(Genotype == "W670203")
+
+W670704 <- 
+  GxS_SE %>% 
+  filter(Genotype == "W670704")
+
 ```
 
-Your figure and table captions are automatically numbered and can be referenced in the text
-if needed: see eg. Table \@ref(tab:mytable) and Figure \@ref(fig:standard-plot)
+```{r making the graphs, echo = FALSE}
+
+plot1 <- 
+  Mace %>% 
+  ggplot(aes(x = factor(weed, level = c('ctrl', 'Wr', 'Ca', 'Bo', 'Mo', 'Fb', 'Hb')), y = yld)) +
+  geom_bar(stat = "identity", position=position_dodge(), 
+            fill = c("darkgrey", "lightcyan4", "paleturquoise4", "lightsteelblue3", "lightblue",  "lightskyblue1", "paleturquoise1")) +
+  geom_errorbar(aes(ymin = yld.SEmin, ymax = yld.SEmax), width = 0.2) +
+  ggtitle("Mace") +
+  theme(plot.title = element_text(size = 10)) +
+  labs(y="Yield (t/ha)", x=" ", size = rel(1.2)) +
+  theme(axis.text.x = element_text(size = rel(1.0))) + 
+  ylim(0, 6.05)
+
+plot2 <- 
+  Scout %>% 
+  ggplot(aes(x = factor(weed, level = c('ctrl', 'Wr', 'Ca', 'Bo', 'Mo', 'Fb', 'Hb')), y = yld)) +
+  geom_bar(stat = "identity", position=position_dodge(), 
+           fill = c("darkgrey", "lightcyan4", "paleturquoise4", "lightsteelblue3", "lightblue",  "lightskyblue1", "paleturquoise1")) +
+  geom_errorbar(aes(ymin = yld.SEmin, ymax = yld.SEmax), width = 0.2) +
+  ggtitle("Scout") +
+  theme(plot.title = element_text(size = 10)) +
+  labs(y="Yield (t/ha)", x=" ", size = rel(1.2)) +
+  theme(axis.text.x = element_text(size = rel(1.0))) + 
+  ylim(0, 6.05)
+
+plot3 <- 
+  W091106 %>% 
+  ggplot(aes(x = factor(weed, level = c('ctrl', 'Wr', 'Ca', 'Bo', 'Mo', 'Fb', 'Hb')), y = yld)) +
+  geom_bar(stat = "identity", position=position_dodge(), 
+           fill = c("darkgrey", "lightcyan4", "paleturquoise4", "lightsteelblue3", "lightblue",  "lightskyblue1", "paleturquoise1")) +
+  geom_errorbar(aes(ymin = yld.SEmin, ymax = yld.SEmax), width = 0.2) +
+  ggtitle("W091106") +
+  theme(plot.title = element_text(size = 10)) +
+  labs(y="Yield (t/ha)", x=" ", size = rel(1.2)) +
+  theme(axis.text.x = element_text(size = rel(1.0))) + 
+  ylim(0, 6.05)
+
+plot4 <- 
+  W120206 %>% 
+  ggplot(aes(x = factor(weed, level = c('ctrl', 'Wr', 'Ca', 'Bo', 'Mo', 'Fb', 'Hb')), y = yld)) +
+  geom_bar(stat = "identity", position=position_dodge(), 
+           fill = c("darkgrey", "lightcyan4", "paleturquoise4", "lightsteelblue3", "lightblue",  "lightskyblue1", "paleturquoise1")) +
+  geom_errorbar(aes(ymin = yld.SEmin, ymax = yld.SEmax), width = 0.2) +
+  ggtitle("W120206") +
+  theme(plot.title = element_text(size = 10)) +
+  labs(y="Yield (t/ha)", x=" ", size = rel(1.2)) +
+  theme(axis.text.x = element_text(size = rel(1.0))) + 
+  ylim(0, 6.05)
+
+plot5 <- 
+  W320101 %>% 
+  ggplot(aes(x = factor(weed, level = c('ctrl', 'Wr', 'Ca', 'Bo', 'Mo', 'Fb', 'Hb')), y = yld)) +
+  geom_bar(stat = "identity", position=position_dodge(), 
+           fill = c("darkgrey", "lightcyan4", "paleturquoise4", "lightsteelblue3", "lightblue",  "lightskyblue1", "paleturquoise1")) +
+  geom_errorbar(aes(ymin = yld.SEmin, ymax = yld.SEmax), width = 0.2) +
+  ggtitle("W320101") +
+  theme(plot.title = element_text(size = 10)) +
+  labs(y="Yield (t/ha)", x=" ", size = rel(1.2)) +
+  theme(axis.text.x = element_text(size = rel(1.0))) + 
+  ylim(0, 6.05)
+
+plot6 <- 
+  W470201 %>% 
+  ggplot(aes(x = factor(weed, level = c('ctrl', 'Wr', 'Ca', 'Bo', 'Mo', 'Fb', 'Hb')), y = yld)) +
+  geom_bar(stat = "identity", position=position_dodge(), 
+           fill = c("darkgrey", "lightcyan4", "paleturquoise4", "lightsteelblue3", "lightblue",  "lightskyblue1", "paleturquoise1")) +
+  geom_errorbar(aes(ymin = yld.SEmin, ymax = yld.SEmax), width = 0.2) +
+  ggtitle("W470201") +
+  theme(plot.title = element_text(size = 10)) +
+  labs(y="Yield (t/ha)", x=" ", size = rel(1.2)) +
+  theme(axis.text.x = element_text(size = rel(1.0))) + 
+  ylim(0, 6.05)
+
+plot7 <- 
+  W670203 %>% 
+  ggplot(aes(x = factor(weed, level = c('ctrl', 'Wr', 'Ca', 'Bo', 'Mo', 'Fb', 'Hb')), y = yld)) +
+  geom_bar(stat = "identity", position=position_dodge(), 
+           fill = c("darkgrey", "lightcyan4", "paleturquoise4", "lightsteelblue3", "lightblue",  "lightskyblue1", "paleturquoise1")) +
+  geom_errorbar(aes(ymin = yld.SEmin, ymax = yld.SEmax), width = 0.2) +
+  ggtitle("W670203") +
+  theme(plot.title = element_text(size = 10)) +
+  labs(y="Yield (t/ha)", x=" ", size = rel(1.2)) +
+  theme(axis.text.x = element_text(size = rel(1.0))) + 
+  ylim(0, 6.05)
+
+plot8 <- 
+  W670704 %>% 
+  ggplot(aes(x = factor(weed, level = c('ctrl', 'Wr', 'Ca', 'Bo', 'Mo', 'Fb', 'Hb')), y = yld)) +
+  geom_bar(stat = "identity", position=position_dodge(), 
+           fill = c("darkgrey", "lightcyan4", "paleturquoise4", "lightsteelblue3", "lightblue",  "lightskyblue1", "paleturquoise1")) +
+  geom_errorbar(aes(ymin = yld.SEmin, ymax = yld.SEmax), width = 0.2) +
+  ggtitle("W670704") +
+  theme(plot.title = element_text(size = 10)) +
+  labs(y="Yield (t/ha)", x=" ", size = rel(1.2)) +
+  theme(axis.text.x = element_text(size = rel(1.0))) + 
+  ylim(0, 6.05)
+
+```
+
+
+
+```{r figure to show, out.width='90%', fig.align='center', fig.height= 6, fig.width=12, fig.cap="Wheat grain yield of Australian commercial varieties Mace and Scout and developed high-vigour lines W091106, W120206, W120206, W320101, W470201, W670203, W670704 grown under in Condobolin without competition (ctrl) or grown in competition with winter ryegrass (WR), canola (Ca), tall oat (Bo; Bannister oat), short oat (Mo; Mitika oat), tall barley (Fb; Fathom barley) and short barley (Hb; Hindmarsh barley)."}
+
+
+plot_grid(plot1, plot2, plot3, plot4, plot4, plot5, plot6, plot7, plot8,
+          rel_heights = c(3,3),                   # specifying relative height second row three times as heigh as the first one
+          rel_widths = c(4,4),                    # also a rel_height (no 's') does something different 
+          labels = "auto", label_size = 10)
+
+
+```
+
+
 
 # My Digital Toolbox
 
@@ -97,7 +241,7 @@ You can use all the usual R markdown features in writing a project summary, incl
 
 Is there a tool/package/function in particular that you've enjoyed using? Give it a special shout out here. What about this tool makes it your favourite?
 
-![](https://raw.githubusercontent.com/tidyverse/ggplot2/master/man/figures/logo.png){.pull-right width=100px}
+
 
 No prizes for guessing mine:
 
@@ -118,3 +262,12 @@ parts of your Data School experience. What aspects of the program did you really
 tried applying the skills you have learned in your daily work? Have you been able to transfer this 
 knowledge to your team members? Any descriptions of the personal impact the program has 
 had are welcome here as well!
+
+
+**Images from a file**
+
+![](resources/img/tidyverse.png){width=100px}
+
+
+![](https://raw.githubusercontent.com/tidyverse/ggplot2/master/man/figures/logo.png){.pull-right width=100px}
+
