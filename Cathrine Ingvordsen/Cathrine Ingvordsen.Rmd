@@ -37,12 +37,9 @@ Before joining Data School my R experience was adopting colleagues scripts and r
 In our project team we exploit early vigour to breed weed-competitive wheat and test for proof of concept of the competitivenes. Our data comes from field trials and are phenotype data in the form of scores (1-5), weights or counts. We typically run our trials in several environments, which can be different sites, irrigation regimes or years. We also measure co-factors such as length of plots and weather data. 
 
 
-Because purposely spreading weeds is no option we use non-wheat crops as weed-surrogates and grow them in mixtures with our developed vigorous wheat lines.  
-To experimentally test if the type of weed influence the competitive ability of our vigorous wheats we grew 2 commercial varieties and seven vigorous lines with six different weed-surrogates representing a pamflet of natural occuring weeds.  
-
-
-## Preliminary results
-The used weed-surrogates decreased wheat yield at different strength from measurements of grain yield in our trials in Condobolin 2017 and 2018. 
+## Does weed species matter?
+In 2017 and 2018 we tested wheat competitive ability of Australian commercial cultivars and developed high-vigour lines in Condobolin. Because purposely spreading weeds is no option we used non-wheat crops as weed-surrogates and grow them in mixtures.  
+To experimentally test if the type of weed influence the competitive ability of our vigorous wheats we grew 2 commercial varieties and seven vigorous lines with six different weed-surrogates testing the effect between wheat genotypes and weed species.  
 
 
 To get tables formatting correctly, use `knitr::kable` to convert the table to html format. If
@@ -51,12 +48,14 @@ from the `kableExtra` package.
 
 **Tables**
 ```{r mytable, out.width='100%', echo = T}
-knitr::kable(head(gapminder, n = 5), format = "html", caption = "A table of data") %>% 
+
+knitr::kable(head(gapminder, n = 5), format = "html", caption = "Overview of entries") %>% 
   kable_styling("striped")
 ```
 
 
-
+## Preliminary results
+The used weed-surrogates decreased wheat yield at different strength from measurements of grain yield in our trials in Condobolin 2017 and 2018. 
 
 ```{r preparing data, include=FALSE}
 
@@ -212,14 +211,13 @@ plot8 <-
 
 
 
-```{r figure to show, out.width='90%', fig.align='center', fig.height= 6, fig.width=12, fig.cap="Wheat grain yield of Australian commercial varieties Mace and Scout and developed high-vigour lines W091106, W120206, W120206, W320101, W470201, W670203, W670704 grown under in Condobolin without competition (ctrl) or grown in competition with winter ryegrass (WR), canola (Ca), tall oat (Bo; Bannister oat), short oat (Mo; Mitika oat), tall barley (Fb; Fathom barley) and short barley (Hb; Hindmarsh barley)."}
+```{r figure to show, out.width='98%', fig.align='center', fig.height= 6, fig.width=14, fig.cap="Wheat grain yield of Australian commercial varieties Mace and Scout and developed high-vigour lines W091106, W120206, W120206, W320101, W470201, W670203, W670704 grown under in Condobolin without competition (ctrl) or grown in competition with winter ryegrass (WR), canola (Ca), tall oat (Bo; Bannister oat), short oat (Mo; Mitika oat), tall barley (Fb; Fathom barley) and short barley (Hb; Hindmarsh barley)."}
 
 
 plot_grid(plot1, plot2, plot3, plot4, plot4, plot5, plot6, plot7, plot8,
-          rel_heights = c(3,3),                   # specifying relative height second row three times as heigh as the first one
-          rel_widths = c(4,4),                    # also a rel_height (no 's') does something different 
+          nrow = 2,
+          ncol = 4,
           labels = "auto", label_size = 10)
-
 
 ```
 
@@ -266,8 +264,5 @@ had are welcome here as well!
 
 **Images from a file**
 
-![](resources/img/tidyverse.png){width=100px}
-
-
-![](https://raw.githubusercontent.com/tidyverse/ggplot2/master/man/figures/logo.png){.pull-right width=100px}
+![](resources/img/tidyverse.png){width=100px}![](https://raw.githubusercontent.com/tidyverse/ggplot2/master/man/figures/logo.png){.pull-right width=100px}
 
