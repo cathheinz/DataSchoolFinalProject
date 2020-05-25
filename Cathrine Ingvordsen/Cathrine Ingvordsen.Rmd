@@ -60,7 +60,7 @@ The used weed-surrogates decreased wheat yield differently with tall barley (Fb)
 
 ```{r preparing data, include=FALSE}
 
-GxS <- read_csv("C:/Users/ing06d/Documents/Data school FOCUS/Final Project/Final Project/Cathrine Ingvordsen/data/GxS17and18Irr.csv")
+GxS <- read_csv("C:/Users/ing06d/Documents/Data school FOCUS/DataSchoolFinalProject/Cathrine Ingvordsen/data/GxS17and18Irr.csv")
 
 GxS %>% 
 mutate(Genotype = as.factor(Genotype)) %>% 
