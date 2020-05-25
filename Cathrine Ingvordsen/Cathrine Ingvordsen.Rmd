@@ -28,34 +28,35 @@ library(cowplot)
 
 
 # Introduction
-Hi, welcome to my Data School Final Project! I joined CSIRO in 2015 leaving Denmark for this great opportunity to work on agriculture in a country with tight link between growers and science and an agricultural sector sustainable without heavy EU subsidies.
+Hi, welcome to my Data School Final Project! I joined CSIRO in 2015 leaving Denmark for this great opportunity to work on agriculture in a country with tight link between growers and scientists.
 
-Before joining Data School my R experience was adopting colleagues scripts and running them on my own data - once figuring out how to load data from another source. Experiencing even more of the power R has on offer in Data School, I'm now determined to find the time to free myself from excel and the errors that can sneak in when I combine field measurements from different sheets - the errors that are complicated or impossible to back track - and make awesome figures.  
+Before joining Data School my R experience was adopting colleagues’ scripts and running them on my own data - once combating the challenge of how to load data. Experiencing more of the power R has on offer during Data School, I'm now determined to find the time to compose my own R scripts and free myself from excel and untraceable errors. 
 
 
 # My Project
-In our project team we exploit early vigour to breed weed-competitive wheat and test for proof of concept of the competitivenes. Our data comes from field trials and are phenotype data in the form of scores (1-5), weights or counts. We typically run our trials in several environments, which can be different sites, irrigation regimes or years. We also measure co-factors such as length of plots and weather data. 
+In our project team we exploit early vigour to breed weed-competitive wheat and proof of concept test the competitiveness caused by high-vigour. Our data comes from field trials and are predominantly phenotype data in the form of scores (1-5), weights or counts. We typically run our trials in several environments, which can be different sites, irrigation regimes or years. We also measure co-factors such as length of plots and weather data. 
 
 
 ## Does weed species matter?
-In 2017 and 2018 we tested wheat competitive ability of Australian commercial cultivars and developed high-vigour lines in Condobolin. Because purposely spreading weeds is no option we used non-wheat crops as weed-surrogates and grow them in mixtures.  
-To experimentally test if the type of weed influence the competitive ability of our vigorous wheats we grew 2 commercial varieties and seven vigorous lines with six different weed-surrogates testing the effect between wheat genotypes and weed species.  
+In 2017 and 2018 we tested wheat competitive ability towards different weed species of Australian commercial cultivars and developed high-vigour lines in Condobolin. Because purposely spreading weeds is no option, we use non-wheat crops as weed-surrogates and grow and harvest them in mixtures.  
+To experimentally test if the type of weed influences the competitive ability of wheat, we grew 2 commercial varieties and seven of our developed vigorous lines with six different weed-surrogates testing the interaction of wheat genotypes and weed species.
+ 
 
+```{r include=FALSE}
 
-To get tables formatting correctly, use `knitr::kable` to convert the table to html format. If
-you also want to have alternate row highlighting, pass the result to `kable_styling('striped')` 
-from the `kableExtra` package.
+table.weed <- read_csv("C:/Users/ing06d/Documents/Data school FOCUS/DataSchoolFinalProject/Cathrine Ingvordsen/data/table weeds.csv")
 
-**Tables**
-```{r mytable, out.width='100%', echo = T}
+```
 
-knitr::kable(head(gapminder, n = 5), format = "html", caption = "Overview of entries") %>% 
+```{r mytable, echo=FALSE, out.width='100%'}
+
+knitr::kable(head(table.weed, n = 6), format = "html", caption = "Weed-surrogates") %>% 
   kable_styling("striped")
 ```
 
 
 ## Preliminary results
-The used weed-surrogates decreased wheat yield at different strength from measurements of grain yield in our trials in Condobolin 2017 and 2018. 
+The used weed-surrogates decreased wheat yield differently with tall barley (Fb) to be the strongest weed-competitor. The Australian commercial varieties showed greater decrease with competition than without competition (ctrl). The final wheat yield of Australian commercial varieties without competition (ctrl) were considerable higher than the yield of the developed high-vigour lines, however, these were bred for high-vigour with no consideration of yield. 
 
 ```{r preparing data, include=FALSE}
 
@@ -209,9 +210,7 @@ plot8 <-
 
 ```
 
-
-
-```{r figure to show, out.width='98%', fig.align='center', fig.height= 6, fig.width=14, fig.cap="Wheat grain yield of Australian commercial varieties Mace and Scout and developed high-vigour lines W091106, W120206, W120206, W320101, W470201, W670203, W670704 grown under in Condobolin without competition (ctrl) or grown in competition with winter ryegrass (WR), canola (Ca), tall oat (Bo; Bannister oat), short oat (Mo; Mitika oat), tall barley (Fb; Fathom barley) and short barley (Hb; Hindmarsh barley)."}
+```{r figure, out.width='100%', fig.align='center', fig.height= 6, fig.width=14, fig.cap="Wheat grain yield of Australian commercial varieties Mace and Scout and developed high-vigour lines W091106, W120206, W120206, W320101, W470201, W670203, W670704 grown in Condobolin without competition (ctrl) or in competition with winter ryegrass (Wr), canola (Ca), tall oat (Bo; Bannister oat), short oat (Mo; Mitika oat), tall barley (Fb; Fathom barley) and short barley (Hb; Hindmarsh barley)."}
 
 
 plot_grid(plot1, plot2, plot3, plot4, plot4, plot5, plot6, plot7, plot8,
@@ -221,45 +220,21 @@ plot_grid(plot1, plot2, plot3, plot4, plot4, plot5, plot6, plot7, plot8,
 
 ```
 
-
-
 # My Digital Toolbox
 
-What digital tools have you been using in your project? Do you expect that everything will be able 
-to be completed within R, or will you need to work with multiple tools to get the right result?
-Which of the digital skills needed for your project have you learned since starting Data School?
-
-You can use all the usual R markdown features in writing a project summary, including lists:
-
-* R - dplyr, ggplot, ...
-* Python
-* SQL
-
-## Favourite tool (optional)
-
-Is there a tool/package/function in particular that you've enjoyed using? Give it a special shout out here. What about this tool makes it your favourite?
-
-
-
-No prizes for guessing mine:
+I've filled my digital toolbox with numerous functions of tidyverse. To not manipulate my field scorings made in excel I’ll use full_join to combine the sheets many, many times. I'll use functions from the regular expressions to secure consistency in naming, scorings, measurements and comments. Finally, when getting to the data analysis ggplot will be my go-to for initial data exploration and visualisation for final publications. Regarding ggplot I suspect I'll get across more than what we've learned in Data School.  
 
 # My time went ...
-
-What parts of your project take the most time and effort? Were there any surprising challenges you
-encountered, and how did you solve them?
+My time went primarily with ggplot for this final project, making already analysed data presentable. Going back and forth from script to final presentation considering e.g. font size was more time consuming than I expected.
 
 # Next steps
-
-What further steps do you wish your project could take? Or are there any new digital skills that you
-are keen to develop as a result of your involvement in the Data School?
+I'd get really excited by a database to store field data measurements and photos designed by field scientists. Such data base would free me from my own folder system, which in busy times gets chaotic, and further free up space on my computer.
 
 # My Data School Experience
+My Data School has been brilliant. Huge Thanks to Team Kristian, Stephen and Karensa!
 
-This summary is mostly about your project. However we would also like to hear about other
-parts of your Data School experience. What aspects of the program did you really enjoy? Have you
-tried applying the skills you have learned in your daily work? Have you been able to transfer this 
-knowledge to your team members? Any descriptions of the personal impact the program has 
-had are welcome here as well!
+I'm now more confident that the time invested in R is paying off and tasks possible with the support of the Data School network. Moving into the habit of using R systemically and frequently has already begun with establishing my freshly sown trials with a R project for each trial. 
+The personal impact will initially be investment of time and later when I can reuse my own(!) R scripts save me time.
 
 
 **Images from a file**
