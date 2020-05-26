@@ -21,7 +21,6 @@ knitr::opts_chunk$set(
 
 #Load libraries
 library(tidyverse)
-library(gapminder)
 library(kableExtra)
 library(cowplot)
 ```
@@ -210,10 +209,10 @@ plot8 <-
 
 ```
 
-```{r figure, out.width='100%', fig.align='center', fig.height= 6, fig.width=14, fig.cap="Wheat grain yield of Australian commercial varieties Mace and Scout and developed high-vigour lines W091106, W120206, W120206, W320101, W470201, W670203, W670704 grown in Condobolin without competition (ctrl) or in competition with winter ryegrass (Wr), canola (Ca), tall oat (Bo; Bannister oat), short oat (Mo; Mitika oat), tall barley (Fb; Fathom barley) and short barley (Hb; Hindmarsh barley)."}
+```{r figure, out.width='100%', fig.align='center', fig.height= 6, fig.width=14, fig.cap="Wheat grain yield of Australian commercial varieties Mace and Scout and developed high-vigour lines W091106, W120206, W320101, W470201, W670203, W670704 grown in Condobolin without competition (ctrl) or in competition with winter ryegrass (Wr), canola (Ca), tall oat (Bo; Bannister oat), short oat (Mo; Mitika oat), tall barley (Fb; Fathom barley) and short barley (Hb; Hindmarsh barley)."}
 
 
-plot_grid(plot1, plot2, plot3, plot4, plot4, plot5, plot6, plot7, plot8,
+plot_grid(plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8,
           nrow = 2,
           ncol = 4,
           labels = "auto", label_size = 10)
