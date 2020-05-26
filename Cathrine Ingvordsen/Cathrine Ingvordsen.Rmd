@@ -99,6 +99,8 @@ W470201 <-
   GxS_SE %>% 
   filter(Genotype == "W470201")
 
+
+
 W670203 <- 
   GxS_SE %>% 
   filter(Genotype == "W670203")
