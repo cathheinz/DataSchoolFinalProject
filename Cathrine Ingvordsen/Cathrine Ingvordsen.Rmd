@@ -229,7 +229,7 @@ I've filled my digital toolbox with numerous functions of tidyverse. To not mani
 My time went primarily with ggplot for this final project, making already analysed data presentable. Going back and forth from script to final presentation considering e.g. font size was more time consuming than I expected.
 
 # Next steps
-I'd get really excited by a database to store field data measurements and photos designed by field scientists. Such data base would free me from my own folder system, which in busy times gets chaotic, and further free up space on my computer.
+Next step is prioritising time for R and keep doing that. In the future I'd get really excited by a database to store field data measurements and photos designed by field scientists. Such data base would free me from my own folder system, which in busy times gets chaotic, and further free up space on my computer.
 
 # My Data School Experience
 My Data School has been brilliant. Huge Thanks to Team Kristian, Stephen and Karensa!
